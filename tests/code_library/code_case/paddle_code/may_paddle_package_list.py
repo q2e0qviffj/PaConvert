@@ -3,6 +3,8 @@ import os
 import einops
 import paddle
 import setuptools
+
+paddle.enable_compat(level=2)
 from numpy.random import randint
 
 print("#########################case1#########################")

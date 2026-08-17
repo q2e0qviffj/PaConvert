@@ -49,3 +49,73 @@ def test_case_3():
         """
     )
     obj.run(pytorch_code, ["result"])
+
+
+def test_case_4():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        result = torch.empty(0, 3).numel()
+        """
+    )
+    obj.run(pytorch_code, ["result"])
+
+
+def test_case_5():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        a = torch.tensor([1.0, 2.0, 3.0], dtype=torch.float64)
+        count = a.numel()
+        result = count * 3 + 1
+        is_python_int = type(count) is int
+        """
+    )
+    obj.run(pytorch_code, ["result", "is_python_int"])
+
+
+def test_case_6():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        a = torch.arange(24, dtype=torch.int32).reshape(2, 3, 4)
+        result = a.numel()
+        """
+    )
+    obj.run(pytorch_code, ["result"])
+
+
+def test_case_7():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        a = torch.tensor(7, dtype=torch.int32)
+        result = a.numel()
+        """
+    )
+    obj.run(pytorch_code, ["result"])
+
+
+def test_case_8():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        indices = torch.tensor([[0, 1], [1, 2]])
+        values = torch.tensor([1.0, 2.0])
+        a = torch.sparse_coo_tensor(indices, values, [2, 3])
+        result = a.numel()
+        """
+    )
+    obj.run(pytorch_code, ["result"])
+
+
+def test_case_9():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        a = torch.ones(2, 3)
+        args = ()
+        result = a.numel(*args)
+        """
+    )
+    obj.run(pytorch_code, ["result"])

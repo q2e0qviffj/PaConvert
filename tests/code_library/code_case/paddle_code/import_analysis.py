@@ -1,4 +1,5 @@
 import paddle
+paddle.enable_compat(level=2)
 from . import datasets
 from .datasets import x
 from yolov3.datasets import a

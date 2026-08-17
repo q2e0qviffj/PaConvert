@@ -36,6 +36,7 @@ def generate_test_code(scheduler_init, prelude=""):
         loss = parameter.sum()
         loss.backward()
         optimizer.step()
+        scheduler.step()
         result = parameter
         result_epoch = scheduler.last_epoch
         result_is_base = isinstance(

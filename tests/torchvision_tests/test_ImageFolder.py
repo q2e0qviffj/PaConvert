@@ -30,9 +30,10 @@ def test_case_1():
     )
     paddle_code = textwrap.dedent(
         """
-        from pathlib import Path
-
         import paddle
+
+        paddle.enable_compat(level=2)
+        from pathlib import Path
 
         fake_data_dir = "./text_data"
         image_folder = paddle.vision.datasets.ImageFolder(root=Path(fake_data_dir))
@@ -59,8 +60,10 @@ def test_case_2():
     )
     paddle_code = textwrap.dedent(
         """
-        import cv2
         import paddle
+
+        paddle.enable_compat(level=2)
+        import cv2
 
         fake_data_dir = "./text_data"
         image_folder = paddle.vision.datasets.ImageFolder(
@@ -91,8 +94,10 @@ def test_case_3():
     )
     paddle_code = textwrap.dedent(
         """
-        import cv2
         import paddle
+
+        paddle.enable_compat(level=2)
+        import cv2
 
         fake_data_dir = "./text_data"
         image_folder = paddle.vision.datasets.ImageFolder(
@@ -126,8 +131,10 @@ def test_case_4():
     )
     paddle_code = textwrap.dedent(
         """
-        import cv2
         import paddle
+
+        paddle.enable_compat(level=2)
+        import cv2
 
         fake_data_dir = "./text_data"
         image_folder = paddle.vision.datasets.ImageFolder(
@@ -161,8 +168,10 @@ def test_case_5():
     )
     paddle_code = textwrap.dedent(
         """
-        import cv2
         import paddle
+
+        paddle.enable_compat(level=2)
+        import cv2
 
         fake_data_dir = "./text_data"
         image_folder = paddle.vision.datasets.ImageFolder(
@@ -193,6 +202,7 @@ def test_case_6():
         """
         import paddle
 
+        paddle.enable_compat(level=2)
         fake_data_dir = "./text_data"
         image_folder = paddle.vision.datasets.ImageFolder(root=fake_data_dir)
         """

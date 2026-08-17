@@ -33,8 +33,7 @@
   "torch.Tensor.is_meta": {},
   "torch.Tensor.is_quantized": {},
   "torch.Tensor.is_sparse": {
-    "Matcher": "Attribute2Func",
-    "paddle_api": "paddle.Tensor.is_sparse"
+    "Matcher": "ChangePrefixMatcher"
   },
   "torch.Tensor.is_sparse_csr": {
     "Matcher": "Attribute2Func",

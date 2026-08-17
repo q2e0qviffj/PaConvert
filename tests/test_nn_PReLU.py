@@ -292,3 +292,38 @@ def test_case_18():
         """
     )
     obj.run(pytorch_code, ["result"])
+
+
+def test_case_19():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        import torch.nn as nn
+        x = torch.tensor(
+            [[[-1.5, 0.5, 2.0], [-0.25, -2.0, 1.0]]],
+            dtype=torch.float32,
+        )
+        model1 = nn.PReLU(1, 0.3, "cpu")
+        model2 = nn.PReLU(1, 0.3, "cpu")
+        result1 = model1(x)
+        result2 = model2(x)
+        """
+    )
+    obj.run(pytorch_code, ["result1", "result2"])
+
+
+def test_case_20():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        import torch.nn as nn
+        x = torch.tensor(
+            [[-2.0, -0.5, 0.75, 1.5]],
+            dtype=torch.float32,
+        )
+        args = (1, 0.45, "cpu")
+        model = nn.PReLU(*args)
+        result = model(x)
+        """
+    )
+    obj.run(pytorch_code, ["result"])

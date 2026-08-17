@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING
-
 import paddle
+
+paddle.enable_compat(level=2)
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     pass

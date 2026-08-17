@@ -178,6 +178,7 @@ def test_case_9():
         device = "cuda:0"
         torch.set_default_device(device=device)
         result = torch.get_default_device()
+        torch.set_default_device(None)
         """
     )
     obj.run(pytorch_code, ["result"])
@@ -209,6 +210,7 @@ def test_case_11():
         cond = True
         torch.set_default_device(device='cuda' if cond else 'cpu')
         result = torch.get_default_device()
+        torch.set_default_device(None)
         """
     )
     obj.run(pytorch_code, ["result"])
@@ -225,6 +227,7 @@ def test_case_12():
         cond = True
         torch.set_default_device(device='cuda:0' if cond else 'cuda:1')
         result = torch.get_default_device()
+        torch.set_default_device(None)
         """
     )
     obj.run(pytorch_code, ["result"])
@@ -262,6 +265,7 @@ def test_case_14():
         device = "cuda:0" if cond else "cuda:1"
         torch.set_default_device(device=device)
         result = torch.get_default_device()
+        torch.set_default_device(None)
         """
     )
     obj.run(pytorch_code, ["result"])
@@ -277,6 +281,7 @@ def test_case_15():
         import torch
         torch.set_default_device(0)
         result = torch.get_default_device()
+        torch.set_default_device(None)
         """
     )
     obj.run(pytorch_code, ["result"])
@@ -293,6 +298,7 @@ def test_case_16():
         cond = True
         torch.set_default_device(device=0 if False else 1)
         result = torch.get_default_device()
+        torch.set_default_device(None)
         """
     )
     obj.run(pytorch_code, ["result"])

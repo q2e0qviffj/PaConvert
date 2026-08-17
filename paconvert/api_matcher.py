@@ -3012,26 +3012,12 @@ class AvgPoolMatcher(BaseMatcher):
 
 
 class FSoftMinMatcher(BaseMatcher):
-    def generate_utils_code(self):
-        CODE_TEMPLATE = textwrap.dedent(
-            """
-            def _get_softmin_dim(axis: int) -> int:
-                if axis == 0 or axis == 1 or axis == 3:
-                    return 0
-                else:
-                    return 1
-            """
-        )
-        return CODE_TEMPLATE
-
     def generate_code(self, kwargs):
+        # torch.nn.functional.softmin(x, dim) equals softmax(-x, dim); under
+        # enable_compat(level=2) paddle.nn.functional.softmax already follows
+        # the torch signature, including the implicit dim choice for dim=None.
         kwargs["input"] = f"-{kwargs['input']}"
-        if "dim" not in kwargs or kwargs["dim"] == "None":
-            self.enable_utils_code()
-            kwargs["dim"] = "_get_softmin_dim({}.ndim)".format(kwargs["input"])
-            return GenericMatcher.generate_code(self, kwargs)
-        else:
-            return GenericMatcher.generate_code(self, kwargs)
+        return GenericMatcher.generate_code(self, kwargs)
 
 
 class MSortMatcher(BaseMatcher):
@@ -4084,18 +4070,13 @@ class SoftminMatcher(BaseMatcher):
     def generate_utils_code(self):
         CODE_TEMPLATE = textwrap.dedent(
             """
-            def _get_softmax_dim(axis: int) -> int:
-                if axis == 0 or axis == 1 or axis == 3:
-                    ret = 0
-                else:
-                    ret = 1
-                return ret
+            class Softmin(paddle.nn.Layer):
+                def __init__(self, dim=None):
+                    super().__init__()
+                    self.dim = dim
 
-            class Softmin(paddle.nn.Softmax):
                 def forward(self, x):
-                    if self._axis is None:
-                        return paddle.nn.functional.softmax(-x, _get_softmax_dim(x.ndim))
-                    return paddle.nn.functional.softmax(-x, self._axis)
+                    return paddle.nn.functional.softmax(-x, dim=self.dim)
             """
         )
         return CODE_TEMPLATE
@@ -5799,7 +5780,7 @@ class ReduceScatterTensorMatcher(BaseMatcher):
                 if input.shape[0] == world_size:
                     input_list = paddle.unstack(input, axis=0)
                 else:
-                    input_list = paddle.split(input, num_or_sections=world_size, axis=0)
+                    input_list = paddle.split(input, world_size, dim=0)
                 paddle.distributed.reduce_scatter(output, input_list, op, group, async_op)
             """
         )

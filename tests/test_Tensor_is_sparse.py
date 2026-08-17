@@ -27,3 +27,67 @@ def test_case_1():
         """
     )
     obj.run(pytorch_code, ["result"])
+
+
+def test_case_2():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        indices = torch.tensor([[0], [1]])
+        values = torch.tensor([1.0])
+        a = torch.sparse_coo_tensor(indices, values, [2, 2])
+        result = a.is_sparse
+        """
+    )
+    obj.run(pytorch_code, ["result"])
+
+
+def test_case_3():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        crows = torch.tensor([0, 1, 1])
+        cols = torch.tensor([0])
+        values = torch.tensor([1.0])
+        a = torch.sparse_csr_tensor(crows, cols, values, [2, 2])
+        result = a.is_sparse
+        """
+    )
+    obj.run(pytorch_code, ["result"])
+
+
+def test_case_4():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        a = torch.empty([0, 3], dtype=torch.float64)
+        result = a.is_sparse
+        """
+    )
+    obj.run(pytorch_code, ["result"])
+
+
+def test_case_5():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        a = torch.arange(24, dtype=torch.int32).reshape(2, 3, 4)
+        result = a.is_sparse
+        result_type = type(result).__name__
+        """
+    )
+    obj.run(pytorch_code, ["result", "result_type"])
+
+
+def test_case_6():
+    pytorch_code = textwrap.dedent(
+        """
+        import torch
+        indices = torch.tensor([[0, 1], [1, 2]])
+        values = torch.tensor([1, 2], dtype=torch.int64)
+        a = torch.sparse_coo_tensor(indices, values, [2, 3])
+        result = a.is_sparse
+        result_type = type(result).__name__
+        """
+    )
+    obj.run(pytorch_code, ["result", "result_type"])

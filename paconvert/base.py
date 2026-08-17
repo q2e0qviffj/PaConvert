@@ -433,12 +433,8 @@ class BaseMatcher(object):
         class_str = "paddle.Tensor|paddle.nn.Module|paddle.optimizer.Optimizer|paddle.optim.Optimizer|paddle.distribution.Distribution|paddle.distributions.distribution.Distribution|paddle.autograd.function.FunctionCtx|paddle.profiler.Profiler"
         if self.get_paddle_api():
             new_paddle_api = re.sub(
-                class_str,
-                re.escape(self.paddleClass),
-                self.get_paddle_api(),
+                class_str, lambda m: self.paddleClass, self.get_paddle_api(), count=1
             )
-            # reverse escape
-            new_paddle_api = re.sub(r"\\(.)", r"\1", new_paddle_api)
             self.paddle_api = new_paddle_api
 
     def args_to_str(self, args):

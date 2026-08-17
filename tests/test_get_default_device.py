@@ -59,6 +59,7 @@ def test_case_3():
         import torch
         torch.set_default_device(device=torch.device("cuda:0"))
         result = torch.get_default_device()
+        torch.set_default_device(None)
         """
     )
     obj.run(pytorch_code, ["result"])

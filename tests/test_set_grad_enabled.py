@@ -53,6 +53,7 @@ def test_case_3():
         x = torch.tensor([1.], requires_grad=True)
         _ = torch.set_grad_enabled(False)
         result = x * 2
+        torch.set_grad_enabled(True)
         """
     )
     obj.run(pytorch_code, ["result"])
